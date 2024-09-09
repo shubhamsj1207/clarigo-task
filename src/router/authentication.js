@@ -5,6 +5,7 @@ const Joi=require('joi')
 const router=new express.Router();
 const bcrypt = require('bcrypt');
 const jwt=require('jsonwebtoken');
+ 
 
 router.post("/registration",async(req,res)=>{
     console.log("body coming" +req.body);
@@ -17,7 +18,6 @@ router.post("/registration",async(req,res)=>{
         
     }
     try{
-
         let { password, email } = req.body;
         const has_pass = await bcrypt.hash(password, 2);
         console.log(has_pass);
@@ -34,15 +34,14 @@ router.post("/registration",async(req,res)=>{
         if(repeatemail.length==0){
             const add=new user(userdata);
             const insert= await add.save();
-           // res.status(200).send('you signup successfully');
         }else{
-          return res.send("email is already existed " + email);
-            
+         
+          return res.send("email is already existed " + email);   
         }
           const token = jwt.sign({email:userdata.email,username:userdata.username},"xyz",{expiresIn:'1h'});
           console.log('token', token);
           res.status(201).json({ message: 'sign success', token });
-          
+
             }catch(e){
      return  res.status(501).send(`something is error in signup ${e}`)
     }
@@ -59,8 +58,7 @@ router.post("/login",async(req,res)=>{
     if(result.error){
         console.log('response from joi',result.error.details[0].message);
         const errormessage=result.error.details[0].message;
-      return res.status(404).send(errormessage);
-        
+      return res.status(404).send(errormessage);       
     }
     try{
         const email=req.body.email;

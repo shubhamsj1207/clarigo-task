@@ -25,7 +25,12 @@ const UsersSchema= new mongoose.Schema({
         type:Number,
         required:true,
         trim:true
-    },    
+    },
+    profile_image:{
+        type:String,
+        required:true
+    }
+      
 });
 
 const users=new mongoose.model("users",UsersSchema);
