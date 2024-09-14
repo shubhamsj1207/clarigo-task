@@ -6,8 +6,9 @@ function validationuser(data){
         email : Joi.string().email().required(),
         mobileno: Joi.string().length(10).required(), 
         password : Joi.string().required(),
+        profile_image: Joi.string(),
         });
     const result = schema.validate(data);
     return result;
     };
- module.exports=validationuser;   
+ module.exports=validationuser;   ``

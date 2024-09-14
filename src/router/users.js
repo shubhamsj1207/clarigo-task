@@ -5,9 +5,73 @@ const Joi=require('joi');
 const userrouter=new express.Router();
 const jwt=require('jsonwebtoken');
 const multer=require('multer');
+const upload=require("../controller/upload");
+const showData = require('../controller/user');
 
 
-userrouter.post("/addusers",async(req,res)=>{
+userrouter.post("/adduser/", upload.single('profile_image'), async(req, res) => {
+    try{
+    const tokenauth=req.header('Authorization');
+        console.log("token recieved",tokenauth);
+        if (!tokenauth) {
+            return res.status(200).json({
+                        success: false,
+                        message: "Error!Token was not provided."
+                    }); 
+                          
+        }
+        const token=tokenauth.split(' ')[1];
+        console.log("here is the token " ,token);
+        try{
+            const decoded=jwt.verify(token,"xyz");
+            console.log("token decoded",decoded);
+        }catch (error) {
+            res.status(401).send('invalid token'); 
+            console.log('invalid token'); 
+            return;                   
+            }
+            console.log(req.body);
+            const data=req.body;
+            const result=validationuser(data);
+            if(result.error){
+                console.log('response from joi',result.error.details[0].message);
+                const errormessage=result.error.details[0].message;
+                 res.status(404).send(errormessage);  
+                 return;     
+            }  
+            console.log('file request ', req.file);
+            if (!req.file) {
+                res.status(413).send(`File not uploaded!, Please 
+                                    attach jpeg file under 5 MB`);
+                return;
+            }
+         
+           console.log(req.body.firstname);
+           console.log(req.body.lastname);
+           console.log(req.body.email);
+           console.log(req.body.mobileno);
+           console.log(req.body.password);
+           console.log(req.file.originalname);
+
+   const useradd={
+     firstname:req.body.firstname,
+     lastname:req.body.lastname,
+     email:req.body.email,
+     mobileno:req.body.mobileno,
+     password:req.body.password,
+    profile_image:req.file.originalname
+   }
+   const adduser= new users(useradd);
+   const insertusers= await adduser.save();
+   res.status(201).send("user added succesfully and profile uploaded successfully");
+ 
+}catch (error) {  
+    return res.status(400).send(error);
+}
+});
+
+
+/*userrouter.post("/addusers", async(req,res)=>{
     try{
         const tokenauth=req.header('Authorization');
         console.log("token recieved",tokenauth);
@@ -26,18 +90,16 @@ userrouter.post("/addusers",async(req,res)=>{
         }catch (error) {
             res.status(401).send('invalid token'); 
             console.log('invalid token'); 
-            return;
-                    
+            return;                   
             }
-   console.log(req.body);
+    console.log(req.body);
     const data=req.body;
     const result=validationuser(data);
     if(result.error){
         console.log('response from joi',result.error.details[0].message);
         const errormessage=result.error.details[0].message;
         return res.status(404).send(errormessage);       
-    }
-    
+    }  
     const adduser= new users(req.body);
     const insertuser= await adduser.save();
     res.status(201).send('user successfully added');
@@ -46,25 +108,7 @@ userrouter.post("/addusers",async(req,res)=>{
         res.status(501).send('some errore occured'+err)
     }
 });
- 
-/*userrouter.post("/uploads/image",upload.single(' '),(req,res)=>{
-    console.log(req.body);
-    console.log(req.file);
-   return res.send('single file');
-
-});
-
-const uploadStorage = multer({ storage: storage });
-
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-     return cb(null, "uploads/")
-    },
-    filename: (req, file, cb) => {
-    return  cb(null, Date.now() + "-" + file.originalname)
-    },
-  })
-*/
+ */
 
 
 userrouter.get("/showdata",async(req,res)=>{
@@ -82,12 +126,12 @@ userrouter.get("/showdata",async(req,res)=>{
         const token = tokenAuth.split(' ')[1];
         console.log('here is the token', token);
         try {
-        const decoded = jwt.verify(token, "xyz");
+        const decoded = jwt.verify(token,'xyz');
         console.log('decode token', decoded);
     } catch (error) {
          res.status(401).json({ error: 'Invalid token' });
         console.log('invalid token');
-        
+         return;
         }
     //Authorization: 'Bearer TOKEN'
         const showuser= await users.find({});
@@ -95,7 +139,9 @@ userrouter.get("/showdata",async(req,res)=>{
     }catch(err){
          res.status(400).send(err.message);
     }
+
 });
+
 
 userrouter.put("/user/:id",async(req,res)=>{
          try{
