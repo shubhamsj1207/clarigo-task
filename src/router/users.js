@@ -5,8 +5,8 @@ const Joi=require('joi');
 const userrouter=new express.Router();
 const jwt=require('jsonwebtoken');
 const multer=require('multer');
-const upload=require("../controller/upload");
-const showData = require('../controller/user');
+const upload=require('../controller/upload')
+
 
 
 userrouter.post("/adduser/", upload.single('profile_image'), async(req, res) => {
@@ -21,6 +21,7 @@ userrouter.post("/adduser/", upload.single('profile_image'), async(req, res) => 
                           
         }
         const token=tokenauth.split(' ')[1];
+        console.log('token is coming');
         console.log("here is the token " ,token);
         try{
             const decoded=jwt.verify(token,"xyz");
