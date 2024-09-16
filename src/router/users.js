@@ -5,8 +5,9 @@ const Joi=require('joi');
 const userrouter=new express.Router();
 const jwt=require('jsonwebtoken');
 const multer=require('multer');
-const upload=require('../controller/upload')
-
+const upload=require('../controller/upload');
+const axioususer=require('../model/axiousmod');
+const axios=require('axios');
 
 
 userrouter.post("/adduser/", upload.single('profile_image'), async(req, res) => {
@@ -110,6 +111,55 @@ userrouter.post("/adduser/", upload.single('profile_image'), async(req, res) => 
     }
 });
  */
+
+
+userrouter.get('/fakeuser', async(req,res)=>{
+
+    const res1 = await axios.get('https://dummy.restapiexample.com/api/v1/employees');
+    //console.log('res', res1);
+    const response=res1.data;
+    const resmsg=response.status;
+    //console.log(resmsg);
+    const employeedata=response.data;
+   //console.log(employeedata);
+   try{
+    
+    for(i=0;i<employeedata.length;i++){
+        //console.log(employeedata[i]);
+        const add=new axioususer(employeedata[i]);
+          const adding = await add.save();
+    }
+         console.log("data succesfully addded to db " +resmsg);
+         return res.send('data saved '+ resmsg);
+         
+    }catch(err){
+        console.log('error',err);
+    
+}
+});
+
+/*
+userrouter.get('/fakeuser', async(req,res)=>{
+
+    const res1 = await axios.get('https://dummy.restapiexample.com/api/v1/employees');
+  //  console.log('res', res1);
+    const response=res1.data;
+   // console.log(response.data);
+    const employeedata=response.data;
+    console.log(employeedata);
+   try{
+    for(i=0;i<employeedata.length;i++){
+        //console.log(employeedata[i]);
+        const add=new axioususer(employeedata[i]);
+          const adding = await add.save();
+    }
+         return res.send('data saved');
+    }catch(err){
+        console.log('error',err);
+    }
+});
+*/
+
 
 
 userrouter.get("/showdata",async(req,res)=>{
