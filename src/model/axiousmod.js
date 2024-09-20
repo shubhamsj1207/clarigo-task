@@ -1,25 +1,25 @@
 const express=require('express');
 const mongoose=require('mongoose');
 const AxiousSchema= new mongoose.Schema({
-    employee_name:{
+    name_employee:{
         type:String,
         reuired:true,
         trim:true            
     },
-    employee_salary:{
+    employee_1salary:{
         type:Number,
         reuired:true,
         trim:true   
     },
-    employee_age:{
+    employee_1age:{
         type:Number,
         reuired:true,
         trim:true
     },
-    profile_image:{
+    profile_1image:{
         type:String,
     },    
 });
 
-const axioususer=new mongoose.model("axious", AxiousSchema);
+const axioususer=new mongoose.model("fakeEmployee", AxiousSchema);
 module.exports=axioususer;

@@ -6,7 +6,7 @@ const router=require("./router/authentication");
 const userrouter = require('./router/users');
 const multer=require('multer');
 const axios  = require('axios');
-//const axioususer=require('./model/axiousmod');
+const axioususer=require('./model/axiousmod');
 
 
 app.use(express.json());

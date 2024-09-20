@@ -27,7 +27,7 @@ router.post("/registration",async(req,res)=>{
             mobileno: req.body.mobileno,
             password: has_pass,
 
-        }
+        }               
         
         const repeatemail=await user.find({"email":email});
         console.log("db response",repeatemail);
