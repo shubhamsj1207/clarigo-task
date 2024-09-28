@@ -1,6 +1,5 @@
-const express=require('express');
-const mongoose=require('mongoose');
-const UserSchema= new mongoose.Schema({
+const mongoose = require ('mongoose');
+const UserSchema = new mongoose.Schema({
     username:{
         type:String,
         reuired:true,
@@ -23,5 +22,5 @@ const UserSchema= new mongoose.Schema({
     },    
 });
 
-const user=new mongoose.model("admin",UserSchema);
-module.exports=user;
+const user = new mongoose.model("admin", UserSchema);
+module.exports = user;

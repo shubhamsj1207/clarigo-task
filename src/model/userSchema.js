@@ -1,6 +1,5 @@
-const express=require('express');
-const mongoose=require('mongoose');
-const UsersSchema= new mongoose.Schema({
+const mongoose = require('mongoose');
+const UsersSchema = new mongoose.Schema({
     fullname:{
         type:String,
         reuired:true,
@@ -24,38 +23,19 @@ const UsersSchema= new mongoose.Schema({
     userprofile_image:{
         type:String,
         required:true
-    }
-      
-});
-
-/*const UsersSchema= new mongoose.Schema({
-    name:{
-        type:String,
-        reuired:true,
-        trim:true            
     },
-    email:{
-        type:String,
+    user_salary:{
+        type:Number,
         reuired:true,
         trim:true   
     },
-    mobileno:{
+    user_age:{
         type:Number,
         reuired:true,
         trim:true
     },
-    password:{
-        type:Number,
-        required:true,
-        trim:true
-    },
-    profile_image:{
-        type:String,
-        required:true
-    }
       
-});*/
+});
 
-
-const users=new mongoose.model("users",UsersSchema);
-module.exports=users;
+const users = new mongoose.model("users", UsersSchema);
+module.exports= users;
