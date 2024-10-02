@@ -70,7 +70,7 @@ async function postUser(req, res) {
     }
 }
 
-/*async function getUser (req, res) {
+async function getUser (req, res) {
     try{
     const tokenAuth = req.header('Authorization');
         console.log('token received', tokenAuth);
@@ -96,7 +96,7 @@ async function postUser(req, res) {
 }catch(err){
      res.status(400).send(err.message);
 }
-}*/
+}
 
 async function putUser(req, res) {
     try {
@@ -159,11 +159,14 @@ async function delUser(req, res) {
     }
 }
 
+
+
+
 module.exports = { postUser, getUser, putUser, delUser };
 
 
 
-async function getUser(req, res) {
+/*async function getUser(req, res) {
     try {
         // const showuser= await users.find({user_age:{$eq:22}});
         //const showuser= await users.find({user_age:{$ne:22}});
@@ -186,5 +189,5 @@ async function getUser(req, res) {
     } catch (err) {
         res.status(400).send(err.message);
     }
-}
+}*/
 
