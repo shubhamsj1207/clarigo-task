@@ -182,7 +182,7 @@ module.exports = { postUser, getUser, putUser, delUser };
         //const showuser=await users.find({$and:[{user_age:{$lt:25}},{user_salary:{$gt:10000}}]});
         //const showuser=await users.find({$and:[{user_age:{$lt:25}},{user_salary:{$gt:10000}}]});
         //const showuser=await users.aggregate([{$match:{ user_age:20}}]);
-        //const showuser=await users.aggregate([{$group:{ _id:"$user_age",names:{$push:"$fullname"}}}]);
+        //const showuser=await users.aggregate([{$group:{ _id:"$user_age",names:{$push:"$fullname"}. }}]);
         //const showuser=await users.aggregate([{$group:{ _id:"$user_age",documnet:{$push:"$$ROOT"}}}]);
         const showuser = await users.aggregate([{ $group: { _id: "$user_age", documnet: { $push: "$$ROOT" } } }]);
         return res.send(showuser);
