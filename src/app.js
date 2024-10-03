@@ -1,16 +1,21 @@
-const express=require('express');
-require("./databaseconnection/db")
-const app=express();
-const port=8000;
-const router=require("./router/authentication");
-const userrouter = require('./router/users');
-const multer=require('multer');
+const express = require('express');
+require("./connection/db")
+const app = express();
+const port = 5000;
+const router = require("./router/auth");
+const userrouter = require('./router/user');
+const emprouter = require('./router/emp');
+const employee = require('./router/emp_salary');
 
 app.use(express.json());
 app.use(router);
 app.use(userrouter);
+app.use(emprouter);
+app.use(employee)
 
-app.listen(port,()=>{
+
+app.listen(port, () => {
     console.log(`server running on port ${port}`);
 });
+
 
